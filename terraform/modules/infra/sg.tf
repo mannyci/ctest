@@ -1,7 +1,7 @@
 resource "aws_security_group" "instance" {
   name_prefix = var.env
   description = "${var.env}-instance"
-  vpc_id      = "${data.aws_vpc.default.id}"
+  vpc_id      = data.aws_vpc.default.id
 
   tags = {
     Name      = "${var.env}-instance"

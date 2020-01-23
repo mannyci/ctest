@@ -6,6 +6,7 @@ provider "aws" {
 
 variable "aws_account" {
   type = string
+  description = "Account id"
 }
 
 variable "env" {
@@ -16,8 +17,15 @@ variable "instance_ami_filter" {
   type = string
 }
 
+variable "instance_type" {
+  type = string
+  description = "Instance type"
+}
+
+
 module "infra" {
   source    = "./modules/infra/"
   env       = "${var.env}"
   instance_ami_filter = "${var.instance_ami_filter}"
+  instance_type = "${var.instance_type}"
 }
