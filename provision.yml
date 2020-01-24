@@ -23,6 +23,7 @@
       with_items:
         - gcc
         - make
+        - python3-pip
     - name: Download nvidia driver
       get_url:
         url: "http://us.download.nvidia.com/tesla/440.33.01/NVIDIA-Linux-x86_64-440.33.01.run"
@@ -33,8 +34,15 @@
     # Not running this step since it requires some more tweak to install properly
     # - name: install the drive
     #   shell: "/bin/bash /tmp/Nvidia_driver.run"
+    - name: Install docker-py pip module
+      pip:
+        name: docker-py
+    - name: Copy docker files to remote
+      copy:
+        src: "./{{ item }}"
+        dest: "/root/{{ item }}"
+      with_items:
+        - Dockerfile
+        - entrypoint.sh
     - name: Build the docker image from Dockerfile
-      docker_container:
-        image: centostest:latest
-        path: .
-        state: build
+      command: docker build -t centostest:latest /root/
