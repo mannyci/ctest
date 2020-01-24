@@ -13,7 +13,13 @@
       user:
         name: "{{ item }}"
         state: present
-        ssh_key_file: "~/.ssh/id_rsa.pub"
+      with_items:
+        - siemenstester
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: "{{ item }}"
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
       with_items:
         - siemenstester
     - name: install libraries
@@ -45,4 +51,8 @@
         - Dockerfile
         - entrypoint.sh
     - name: Build the docker image from Dockerfile
-      command: docker build -t centostest:latest /root/
+      # command: docker build -t centostest:latest /root/
+      docker_image:
+        name: centostest:latest
+        path: /root
+        state: build
