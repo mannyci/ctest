@@ -1,0 +1,33 @@
+# Ansible play to configure the instance
+- hosts:
+    - all
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: Install docker
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+    - name: Create users
+      user:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - siemenstester
+    - name: install libraries
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - gcc
+        - make
+    - name: download nvidia driver
+      get_url:
+        url: "http://us.download.nvidia.com/tesla/440.33.01/NVIDIA-Linux-x86_64-440.33.01.run"
+        dest: "/tmp/Nvidia_driver.run"
+        owner: root
+        group: root
+        mode: 0755
+    # - name: install the drive
+    #   shell: "/bin/bash /tmp/Nvidia_driver.run"
