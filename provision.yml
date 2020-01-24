@@ -13,6 +13,7 @@
       user:
         name: "{{ item }}"
         state: present
+        ssh_key_file: "~/.ssh/id_rsa.pub"
       with_items:
         - siemenstester
     - name: install libraries
@@ -22,12 +23,18 @@
       with_items:
         - gcc
         - make
-    - name: download nvidia driver
+    - name: Download nvidia driver
       get_url:
         url: "http://us.download.nvidia.com/tesla/440.33.01/NVIDIA-Linux-x86_64-440.33.01.run"
         dest: "/tmp/Nvidia_driver.run"
         owner: root
         group: root
         mode: 0755
+    # Not running this step since it requires some more tweak to install properly
     # - name: install the drive
     #   shell: "/bin/bash /tmp/Nvidia_driver.run"
+    - name: Build the docker image from Dockerfile
+      docker_container:
+        image: centostest:latest
+        path: .
+        state: build

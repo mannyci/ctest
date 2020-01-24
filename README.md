@@ -6,7 +6,7 @@ Cluster test repo
 2. Ansible - To install/conigure
 3. Docker tu build/run the container
 4. AWS infra provider
-
+5. Terraform and ansible assumes the private and pub keys are in user's home direcory where being run. `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`
 ## How to
 * To deploy the infrastructure
 ** Initalize Terraform
@@ -18,6 +18,5 @@ Cluster test repo
 
 ## To do
 * Terraform state to S3
-* Build the container with Ansible
 * Start the container and validate
 
